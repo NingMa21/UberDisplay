@@ -12,7 +12,8 @@ import Firestore
 import FirebaseAuthUI
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+// https://stackoverflow.com/questions/3088059/what-does-this-mean-nsunknownkeyexception-reason-this-class-is-not-key-v
+    
     var window: UIWindow?
 
 

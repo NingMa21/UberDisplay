@@ -10,11 +10,13 @@ import UIKit
 import Firebase
 
 // HELLO WORLD
+// "https://github.com/firebase/quickstart-ios/blob/9de07f9c2ee49e42c712a6553f55ed2cbfa46f42/authentication/AuthenticationExampleSwift/EmailViewController.swift#L113-L125"
 
 class LoginViewController: UIViewController {
     @IBOutlet weak var tfEmail: UITextField!
     
     @IBOutlet weak var tfPassword: UITextField!
+    
     
 //    var authUI: FUIAuth?
 //    func authUI(_ authUI: FUIAuth, didSignInWith authDataResult: AuthDataResult?, error: Error?) {
@@ -32,12 +34,9 @@ class LoginViewController: UIViewController {
 //            })
 //        }
 //    }
-    @IBAction func register(_ sender: Any) {
-//        authUI = FUIAuth.defaultAuthUI()
-//        authUI?.delegate = self
-//        let providers : [FUIAuthProvider] = [FUIGoogleAuth()]
-//        authUI?.providers = providers
-        guard let email = tfEmail.text, let password = tfPassword.text
+    
+    @IBAction func register(_ sender: AnyObject) {
+        guard let email = self.tfEmail.text, let password = self.tfPassword.text
             else {
                 print("format is not valid")
                 return
@@ -45,7 +44,7 @@ class LoginViewController: UIViewController {
         Auth.auth().createUser(withEmail: email, password: password, completion: {(user: User?, error ) in
             
             if error != nil{
-            print(error)
+            print("email/password not valid")
                 return
             }
             
@@ -75,6 +74,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         // Do any additional setup after loading the view.
     }
