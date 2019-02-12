@@ -37,7 +37,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         // round the corners
         
 
-// buttom pop up asking image from camera or photo library
+        // buttom pop up asking image from camera or photo library
         let actionSheet = UIAlertController(title: "Photo Source", message: "Choose a source", preferredStyle: .actionSheet)
         
         actionSheet.addAction(UIAlertAction(title: "Camera", style: .default, handler: {(action:UIAlertAction) in
