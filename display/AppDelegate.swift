@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 // https://stackoverflow.com/questions/3088059/what-does-this-mean-nsunknownkeyexception-reason-this-class-is-not-key-v
     
     var window: UIWindow?
+    var user: UberDisplayUser?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {

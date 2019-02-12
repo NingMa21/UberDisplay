@@ -28,12 +28,10 @@ class UberDisplayUserTests: XCTestCase {
     
     func runCreateUserInFirebase() {
         let expectation = self.expectation(description: "Creating a user in firebase")
-        var success = true
         
         self.user.createUserinFirebase( {(user) in
             expectation.fulfill()
         }, onError: {(error) in
-            success = false
             expectation.fulfill()
         })
         
@@ -42,12 +40,10 @@ class UberDisplayUserTests: XCTestCase {
     
     func runSignUserIntoFirebase() {
         let expectation = self.expectation(description: "Signing a user in firebase")
-        var success = true
         
         self.user.signUserIntoFirebase( {(user) in
             expectation.fulfill()
         }, onError: {(error) in
-            success = false
             expectation.fulfill()
         })
         
@@ -56,12 +52,10 @@ class UberDisplayUserTests: XCTestCase {
     
     func runDeleteUserinFirebase() {
         let expectation = self.expectation(description: "Deleting a user in firebase")
-        var success = true
         
         self.user.deleteUserinFirebase( {(user) in
             expectation.fulfill()
         }, onError: {(error) in
-            success = false
             expectation.fulfill()
         })
         
