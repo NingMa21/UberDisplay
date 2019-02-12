@@ -144,7 +144,7 @@ SPEC CHECKSUMS:
   gRPC-Core: 24f0344f259b87b477cfd50e1c80a743bbc48113
   gRPC-ProtoRPC: 3d07afd59f65bf29f0456724978035d2d12e903e
   gRPC-RxLibrary: a4bfc6fbb4fb5ed45f85a2317435bc08ace76ac5
-  GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
+  GTMOAuth2: e8b6512c896235149df975c41d9a36c868ab7fba
   GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48

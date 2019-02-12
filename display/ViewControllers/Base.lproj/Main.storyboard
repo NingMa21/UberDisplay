@@ -505,7 +505,7 @@
                                                         <rect key="frame" x="-173" y="173" width="205" height="205"/>
                                                     </imageView>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="degree" translatesAutoresizingMaskIntoConstraints="NO" id="hUy-WT-wym">
-                                                        <rect key="frame" x="-400" y="-25" width="432" height="498"/>
+                                                        <rect key="frame" x="-184" y="99.5" width="216" height="249"/>
                                                     </imageView>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" text="Associate Degree, Alleghany College of DA" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="XUW-Gg-ke1" userLabel="education">
                                                         <rect key="frame" x="40" y="205" width="314" height="38"/>
@@ -908,12 +908,12 @@
     <resources>
         <image name="add-user" width="512" height="512"/>
         <image name="cell" width="295" height="295"/>
-        <image name="degree" width="432" height="498"/>
-        <image name="food-truck-film" width="500" height="333"/>
+        <image name="degree" width="216" height="249"/>
+        <image name="food-truck-film" width="240" height="160.08000183105469"/>
         <image name="job" width="205" height="205"/>
         <image name="location" width="360" height="438"/>
         <image name="mail" width="289" height="219"/>
-        <image name="profilephotos" width="480" height="320"/>
+        <image name="profilephotos" width="960" height="640"/>
         <image name="tag" width="226" height="226"/>
     </resources>
 </document>
