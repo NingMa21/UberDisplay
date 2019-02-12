@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add-user" translatesAutoresizingMaskIntoConstraints="NO" id="vbc-zO-HQV">
-                                <rect key="frame" x="26" y="46" width="240" height="240"/>
+                                <rect key="frame" x="26" y="46" width="287" height="287"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="240" id="Hff-Ny-ly5"/>
                                     <constraint firstAttribute="width" secondItem="vbc-zO-HQV" secondAttribute="height" multiplier="1:1" id="QKu-S0-YWW"/>
@@ -54,7 +54,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ma5-80-uo9">
-                                <rect key="frame" x="269" y="76" width="111" height="86"/>
+                                <rect key="frame" x="309" y="76" width="111" height="86"/>
                                 <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="0.4942208904109589" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="86" id="sa0-6p-kJh"/>
@@ -75,7 +75,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sky-bs-HWV">
-                                <rect key="frame" x="307" y="871" width="220" height="50"/>
+                                <rect key="frame" x="307" y="918" width="260" height="50"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="1pQ-ei-ZoT"/>
@@ -90,7 +90,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Information saved!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bkO-Jo-BDD">
-                                <rect key="frame" x="242" y="955" width="350" height="45"/>
+                                <rect key="frame" x="242" y="1002" width="390" height="45"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -819,7 +819,7 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" textContentType="email"/>
                                 <connections>
                                     <action selector="tfEmailEditingChanged:" destination="eXD-Ut-ilL" eventType="editingChanged" id="gfW-i8-M9h"/>
                                 </connections>
@@ -832,7 +832,7 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                 <connections>
                                     <action selector="tfPasswordEditingChanged:" destination="eXD-Ut-ilL" eventType="editingChanged" id="w6Z-a4-EHQ"/>
                                 </connections>
