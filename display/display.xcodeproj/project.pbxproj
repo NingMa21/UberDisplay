@@ -21,7 +21,7 @@
 		93A339482211EF0400776C94 /* UberDisplayUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A339472211EF0400776C94 /* UberDisplayUser.swift */; };
 		93A3394B2211EF2300776C94 /* UberDisplayUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A3394A2211EF2300776C94 /* UberDisplayUserTests.swift */; };
 		93A3394E2211FA9200776C94 /* displayUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A3394D2211FA9100776C94 /* displayUITests.swift */; };
-		93A339552213045B00776C94 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A339542213045B00776C94 /* StringExtensions.swift */; };
+		93A3395722130E9A00776C94 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A3395622130E9A00776C94 /* StringExtensions.swift */; };
 		BA1BE10D6C3F850B23A1F1F6 /* Pods_displayTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06E14BCE02A883711A52FA7B /* Pods_displayTests.framework */; };
 		FFB8D2638A49659B2819D57E /* Pods_display.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A022DBCE9291564AFA43EB2 /* Pods_display.framework */; };
 /* End PBXBuildFile section */
@@ -70,7 +70,7 @@
 		93A3394A2211EF2300776C94 /* UberDisplayUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UberDisplayUserTests.swift; path = ../displayTests/UberDisplayUserTests.swift; sourceTree = "<group>"; };
 		93A3394C2211FA9000776C94 /* displayUITests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "displayUITests-Bridging-Header.h"; sourceTree = "<group>"; };
 		93A3394D2211FA9100776C94 /* displayUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = displayUITests.swift; path = ../displayUITests/displayUITests.swift; sourceTree = "<group>"; };
-		93A339542213045B00776C94 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StringExtensions.swift; path = ../../../../Documents/StringExtensions.swift; sourceTree = "<group>"; };
+		93A3395622130E9A00776C94 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = SOURCE_ROOT; };
 		9A022DBCE9291564AFA43EB2 /* Pods_display.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_display.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B261E9CA228105E6FEA335F3 /* Pods-display.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-display.debug.xcconfig"; path = "Pods/Target Support Files/Pods-display/Pods-display.debug.xcconfig"; sourceTree = "<group>"; };
 		BB768D999F016766245BC20C /* Pods-displayUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-displayUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-displayUITests/Pods-displayUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -191,7 +191,7 @@
 		93A3394F2213013400776C94 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				93A339542213045B00776C94 /* StringExtensions.swift */,
+				93A3395622130E9A00776C94 /* StringExtensions.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -462,7 +462,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93A339552213045B00776C94 /* StringExtensions.swift in Sources */,
+				93A3395722130E9A00776C94 /* StringExtensions.swift in Sources */,
 				51212F13214AEB110071CE42 /* LoginViewController.swift in Sources */,
 				511A0B0121481BA400F81D3C /* ContentViewController.swift in Sources */,
 				513508CC211B2D25005C45A7 /* ProfileViewController.swift in Sources */,
