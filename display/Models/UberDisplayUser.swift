@@ -18,13 +18,46 @@ class UberDisplayUser {
     var fireBaseUser: User?
     
     /**
+     Saves the current user values in email and pass (plaintext!!) into the plist, this fails silently if the write fails
+     */
+    func saveUsertoPlist() {
+        
+        if let plist = Plist(name: "data") {
+            let dict = plist.getMutablePlistFile()!
+            dict["user_email"] = self.emailAddress!
+            dict["user_pass"] = self.password!
+            
+            do {
+                try plist.addValuesToPlistFile(dict)
+            } catch {
+                // this should fail silently, it doesn't really matter
+                print("couldn't save the plist")
+            }
+        }
+    }
+    
+    /**
+     Loads a user from the plist, if no user it does nothing
+     */
+    func loadUserfromPlist() {
+        
+        if let plist = Plist(name: "data") {
+            let dict = plist.getMutablePlistFile()!
+            if let user_email = dict["user_email"] as? String, let user_pass = dict["user_pass"] as? String {
+                self.emailAddress = user_email
+                self.password = user_pass
+            }
+        }
+    }
+    
+    /**
      This is used to create a user in Firebase.
      
      - Parameter onsuccess: Void - callback function when successful
      - Parameter onError: Void - callback when there is an error
     */
     func createUserinFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: NSError) -> Void) {
-        
+    
         // TODO this should be a better check
         if self.emailAddress != nil && self.password != nil {
             Auth.auth().createUser(withEmail: self.emailAddress!, password: self.password!, completion: {(user: User?, error ) in
@@ -33,8 +66,8 @@ class UberDisplayUser {
                 if error != nil{
                     onError((error as? NSError)!)
                 } else {
-                    
                     self.fireBaseUser = user
+                    
                     onSuccess(self)
                 }
             })

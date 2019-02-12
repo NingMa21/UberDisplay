@@ -77,4 +77,25 @@ class UberDisplayUserTests: XCTestCase {
         XCTAssertNil(self.user.fireBaseUser)
     }
 
+    func testSaveUserPlist() {
+        self.user.saveUsertoPlist()
+        
+        if let plist = Plist(name: "data") {
+            let dict = plist.getMutablePlistFile()!
+            let user_email = dict["user_email"] as? String
+            let user_pass = dict["user_pass"] as? String
+            
+            XCTAssertEqual(user_email, "hanrahan.ben@gmail.com")
+            XCTAssertEqual(user_pass, "1234pass!")
+        } else {
+            XCTAssertTrue(false)
+        }
+    }
+    
+    func testLoadUserPlist() {
+        self.user.emailAddress = "1111hanrahan.ben@gmail.com"
+        
+        self.user.loadUserfromPlist()
+        XCTAssertEqual(self.user.emailAddress, "hanrahan.ben@gmail.com")
+    }
 }
