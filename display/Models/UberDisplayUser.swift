@@ -174,7 +174,7 @@ class UberDisplayUser {
                     
                     onSuccess(self)
                 } else {
-                    onError((error as? NSError)!)
+                    onError(NSError())
                 }
             }
         }

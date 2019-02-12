@@ -68,6 +68,9 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="35"/>
                                 <state key="normal" title="Save"/>
+                                <connections>
+                                    <action selector="SaveProfile:" destination="Lqa-lm-PVd" eventType="touchUpInside" id="0jL-Cv-RXb"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -98,9 +101,11 @@
                         <outlet property="Name" destination="dU6-d9-B0P" id="nMS-3e-w9V"/>
                         <outlet property="PhoneNumber" destination="L08-5A-hLk" id="bw2-nU-ZRX"/>
                         <outlet property="userImage" destination="vbc-zO-HQV" id="0yt-Fd-deo"/>
+                        <segue destination="jDZ-6H-rFY" kind="unwind" identifier="unwindToHome" unwindAction="unwindToHome:" id="hGe-RC-cRh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PxC-eL-6DC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="jDZ-6H-rFY" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="11036.690647482015" y="-1143.3453237410072"/>
         </scene>

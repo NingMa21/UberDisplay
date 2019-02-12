@@ -39,7 +39,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let baseURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) // confirm networkdomainmask
         fileURL = baseURL.appendingPathComponent("content.txt") //change the string later
         load() //this may change once get to firestore
-}
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -142,6 +142,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.performSegue(withIdentifier: segueIdentifiers[indexPath.row], sender: self)
     }
  */
+    
+    // This empty action is needed so that we can come back to the
+    // home screen once we finish doing a request or anything else.
+    @IBAction func unwindToHome(_ segue: UIStoryboardSegue) {
+        // TODO put the saving to the plist here if we come from the registration of sign in
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

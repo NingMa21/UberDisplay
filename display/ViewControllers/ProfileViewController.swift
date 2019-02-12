@@ -15,18 +15,44 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     @IBOutlet weak var DrivingArea: UITextField!
     @IBOutlet weak var Email: UITextField!
     @IBOutlet weak var PhoneNumber: UITextField!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.Email.text = appDelegate.user.emailAddress
+
+        appDelegate.user.loadUserDatafromFirebase( {(user) in
+            self.Name.text = user.displayName
+            self.DrivingArea.text = user.drivingArea
+            self.PhoneNumber.text = user.phoneNumber
+        }, onError: {(error) in
+            // no big deal if it fails, it probably hasn't been created
+        })
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
 
     @IBAction func SaveProfile(_ sender: UIButton) {
-        let collection = Firestore.firestore().collection("uberdisplay")
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.user.displayName = self.Name.text
+        appDelegate.user.drivingArea = self.DrivingArea.text
+        appDelegate.user.phoneNumber = self.PhoneNumber.text
+        // don't save email, it is part of sign in info
         
-        collection.addDocument(data: ["name": Name.text as Any, "drivingarea": DrivingArea.text as Any, "email": Email.text as Any, "phonenumber": PhoneNumber.text as Any]) { err in
-            if let err = err {
-                print("Error adding document: \(err)")
-            } else {
-                print("Document added")
-            }
-        }
+        appDelegate.user.saveUserDatatoFirebase( {(user) in
+            // go back to home screen
+            self.performSegue(withIdentifier: "unwindToHome", sender: self)
+        }, onError: {(error) in
+            // TODO handle this better
+        })
     }
+    
+    
+    //-------------------------
     
     @IBOutlet weak var userImage: UIImageView!
  
@@ -72,16 +98,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.dismiss(animated: true, completion: nil)
     }
     
-    override func viewDidLoad() {
-            super.viewDidLoad()
-        
-        }
     
-    override func didReceiveMemoryWarning() {
-            super.didReceiveMemoryWarning()
-            // Dispose of any resources that can be recreated.
-        
-        }
         
         
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
