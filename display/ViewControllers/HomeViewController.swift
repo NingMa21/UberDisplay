@@ -21,25 +21,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBAction func Profile(_ sender: UIButton) {
     }
-
-    
-    
-    //var tableArray: [String] = ["Profile", "Recommendations", "Gallery", "Resources"]
-    //var segueIdentifiers = ["P", "Rec", "G", "Res"]
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         contentTable.dataSource = self
         contentTable.delegate = self
-        self.title = "Home" // to be changed later
-        self.navigationItem.largeTitleDisplayMode = .always
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+//        self.navigationItem.largeTitleDisplayMode = .always
+//        self.navigationController?.navigationBar.prefersLargeTitles = true
         
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addContent))
-        self.navigationItem.rightBarButtonItem = addButton
-        self.navigationItem.leftBarButtonItem = editButtonItem
+//        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addContent))
+//        self.navigationItem.rightBarButtonItem = addButton
+//        self.navigationItem.leftBarButtonItem = editButtonItem
         
         
         
