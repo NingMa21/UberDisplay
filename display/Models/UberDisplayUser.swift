@@ -8,20 +8,21 @@
 
 import Foundation
 import Firebase
+import Firestore
 
 class UberDisplayUser {
-    var uid: String?
     var emailAddress: String?
     var password: String?
+    var drivingArea: String?
+    var displayName: String?
     var phoneNumber: String?
     
     var fireBaseUser: User?
-    
+
     /**
      Saves the current user values in email and pass (plaintext!!) into the plist, this fails silently if the write fails
      */
     func saveUsertoPlist() {
-        
         if let plist = Plist(name: "data") {
             let dict = plist.getMutablePlistFile()!
             dict["user_email"] = self.emailAddress!
@@ -112,8 +113,6 @@ class UberDisplayUser {
         }
     }
     
-    
-    
     /**
      This is used to delete a user in Firebase.
      
@@ -131,5 +130,73 @@ class UberDisplayUser {
                 onSuccess(self)
             }
         })
+    }
+    
+    /**
+     Saves the extra data to the users collection in firebase store
+     
+     - Parameter onsuccess: Void - callback function when successful
+     - Parameter onError: Void - callback when there is an error
+     */
+    func saveUserDatatoFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: NSError) -> Void) {
+        if let fbUser = self.fireBaseUser {
+            let collection = Firestore.firestore().collection("users")
+            
+            collection.document(fbUser.uid).setData(["name": self.displayName!, "drivingarea": self.drivingArea!, "phonenumber": self.phoneNumber!], completion: { error in
+                if let error = error {
+                    onError((error as? NSError)!)
+                } else {
+                    onSuccess(self)
+                }
+            })
+        }
+        
+        //TODO need an else with an error
+    }
+    
+    /**
+     Retrieves data for this firebase uid and loads it in object
+     
+     - Parameter onsuccess: Void - callback function when successful
+     - Parameter onError: Void - callback when there is an error
+     */
+    func loadUserDatafromFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: NSError) -> Void) {
+        if let fbUser = self.fireBaseUser {
+            let docRef = Firestore.firestore().collection("users").document(fbUser.uid)
+            
+            docRef.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    let data = document.data()
+                    
+                    self.displayName = data["name"] as? String
+                    self.drivingArea = data["drivingarea"] as? String
+                    self.phoneNumber = data["phonenumber"] as? String
+                    
+                    onSuccess(self)
+                } else {
+                    onError((error as? NSError)!)
+                }
+            }
+        }
+        //TODO need an else with an error
+    }
+    
+    /**
+     Deletes data from the firebase for this uid
+     
+     - Parameter onsuccess: Void - callback function when successful
+     - Parameter onError: Void - callback when there is an error
+     */
+    func deleteUserDatafromFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: NSError) -> Void) {
+        if let fbUser = self.fireBaseUser {
+            Firestore.firestore().collection("users").document(fbUser.uid).delete() { error in
+                if let error = error {
+                    onError((error as? NSError)!)
+                } else {
+                    onSuccess(self)
+                }
+            }
+        }
+        //TODO need an else with an error
     }
 }

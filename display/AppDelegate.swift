@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import Firestore
 import FirebaseAuthUI
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 // https://stackoverflow.com/questions/3088059/what-does-this-mean-nsunknownkeyexception-reason-this-class-is-not-key-v
@@ -17,10 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var user = UberDisplayUser()
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        
         return true
     }
 

@@ -101,4 +101,54 @@ class UberDisplayUserTests: XCTestCase {
         XCTAssertTrue(loaded)
         XCTAssertEqual(self.user.emailAddress, "hanrahan.ben@gmail.com")
     }
+    
+    func testUserDataFirebase() {
+        self.user.drivingArea = "State College"
+        self.user.displayName = "BenJAMIN"
+        self.user.phoneNumber = "555-555-1234"
+        
+        // CREATE
+        var success = false
+        let expectation = self.expectation(description: "Creating user data in firestore")
+        
+        self.user.saveUserDatatoFirebase( {(user) in
+            success = true
+            expectation.fulfill()
+        }, onError: {(error) in
+            expectation.fulfill()
+        })
+        
+        waitForExpectations(timeout: TimeInterval.init(120), handler: nil)
+        XCTAssertTrue(success)
+        
+        // READ
+        self.user.drivingArea = "MARS!!!"
+        
+        let expectationTwo = self.expectation(description: "getting user data in firestore")
+        success = false
+        
+        self.user.loadUserDatafromFirebase( {(user) in
+            success = true
+            expectationTwo.fulfill()
+        }, onError: {(error) in
+            expectationTwo.fulfill()
+        })
+        
+        waitForExpectations(timeout: TimeInterval.init(120), handler: nil)
+        XCTAssertTrue(success)
+        XCTAssertEqual(self.user.drivingArea, "State College")
+        
+        // DELETE
+        let expectationThree = self.expectation(description: "deleting user data in firestore")
+        success = false
+        
+        self.user.deleteUserDatafromFirebase( {(user) in
+            success = true
+            expectationThree.fulfill()
+        }, onError: {(error) in
+            expectationThree.fulfill()
+        })
+        waitForExpectations(timeout: TimeInterval.init(120), handler: nil)
+        XCTAssertTrue(success)
+    }
 }

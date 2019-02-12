@@ -10,4 +10,7 @@
    <FileRef
       location = "container:display.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:display.xcodeproj">
+   </FileRef>
 </Workspace>
