@@ -23,6 +23,16 @@ class LoginViewController: UIViewController {
         
         loginButton.isEnabled = false
         registerButton.isEnabled = false
+        
+        // try and load and login the user
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.user.loadUserfromPlist() {
+            appDelegate.user.signUserIntoFirebase({(user) in
+                self.performSegue(withIdentifier: "showProfile", sender: self.loginButton)
+            }, onError: {(error) in
+                // TODO put in a message here
+            })
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -33,9 +43,8 @@ class LoginViewController: UIViewController {
         if let email = tfEmail.text, let password = tfPassword.text {
             if email.isEmail() && password.isPasswordValid() {
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                appDelegate.user = UberDisplayUser()
-                appDelegate.user?.emailAddress = email
-                appDelegate.user?.password = password
+                appDelegate.user.emailAddress = email
+                appDelegate.user.password = password
                 
                 loginButton.isEnabled = true
                 registerButton.isEnabled = true
@@ -56,7 +65,8 @@ class LoginViewController: UIViewController {
     
     @IBAction func registerClick(_ sender: AnyObject) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.user?.createUserinFirebase({(user) in
+        appDelegate.user.createUserinFirebase({(user) in
+            user.saveUsertoPlist()
             self.performSegue(withIdentifier: "showProfile", sender: self.registerButton)
         }, onError: {(error) in
             // TODO put in a message here
@@ -65,11 +75,11 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginClick(_ sender: AnyObject) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.user?.signUserIntoFirebase({(user) in
+        appDelegate.user.signUserIntoFirebase({(user) in
+            user.saveUsertoPlist()
             self.performSegue(withIdentifier: "showProfile", sender: self.loginButton)
         }, onError: {(error) in
             // TODO put in a message here
         })
-        
     }
 }

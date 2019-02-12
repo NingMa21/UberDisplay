@@ -38,16 +38,26 @@ class UberDisplayUser {
     
     /**
      Loads a user from the plist, if no user it does nothing
+     
+     - Returns: whether or not something was loaded that made sense, runs check of email and pass
      */
-    func loadUserfromPlist() {
+    func loadUserfromPlist() -> Bool{
+        var loaded = false
         
         if let plist = Plist(name: "data") {
             let dict = plist.getMutablePlistFile()!
             if let user_email = dict["user_email"] as? String, let user_pass = dict["user_pass"] as? String {
                 self.emailAddress = user_email
                 self.password = user_pass
+                loaded = true
             }
         }
+        
+        if loaded {
+            loaded = (self.emailAddress?.isEmail() ?? false && self.password?.isPasswordValid() ?? false)
+        }
+        
+        return loaded
     }
     
     /**

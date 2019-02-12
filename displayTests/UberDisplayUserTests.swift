@@ -93,9 +93,12 @@ class UberDisplayUserTests: XCTestCase {
     }
     
     func testLoadUserPlist() {
+        self.user.saveUsertoPlist()
+
         self.user.emailAddress = "1111hanrahan.ben@gmail.com"
         
-        self.user.loadUserfromPlist()
+        let loaded = self.user.loadUserfromPlist()
+        XCTAssertTrue(loaded)
         XCTAssertEqual(self.user.emailAddress, "hanrahan.ben@gmail.com")
     }
 }
