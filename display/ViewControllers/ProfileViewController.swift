@@ -15,20 +15,32 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     @IBOutlet weak var DrivingArea: UITextField!
     @IBOutlet weak var Email: UITextField!
     @IBOutlet weak var PhoneNumber: UITextField!
+    @IBOutlet weak var userImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // add the tap gesture to the image
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProfileViewController.imageTapped(tapGestureRecognizer:)))
+        userImage.isUserInteractionEnabled = true
+        userImage.addGestureRecognizer(tapGestureRecognizer)
+        
+        // grab the current user and populate the email address and make sure it is disabled
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.Email.text = appDelegate.user.emailAddress
-
+        self.Email.isEnabled = false
+        
+        // try to retrieve user from firebase if it exists
         appDelegate.user.loadUserDatafromFirebase( {(user) in
             self.Name.text = user.displayName
             self.DrivingArea.text = user.drivingArea
             self.PhoneNumber.text = user.phoneNumber
+            // TODO load the image if it is there
         }, onError: {(error) in
             // no big deal if it fails, it probably hasn't been created
         })
+        
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -51,10 +63,12 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         })
     }
     
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        let tappedImage = tapGestureRecognizer.view as! UIImageView
+    }
     
     //-------------------------
     
-    @IBOutlet weak var userImage: UIImageView!
  
     @IBAction func addPhoto(_ sender: Any) {
         let pPhoto = UIImagePickerController()
@@ -104,18 +118,5 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             // Get the new view controller using segue.destinationViewController.
             // Pass the selected object to the new view controller.
-        }
     }
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+}
