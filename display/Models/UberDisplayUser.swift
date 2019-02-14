@@ -236,11 +236,11 @@ class UberDisplayUser {
      - Parameter onsuccess: Void - callback function when successful
      - Parameter onError: Void - callback when there is an error
      */
-    func deleteUserDatafromFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: NSError) -> Void) {
+    func deleteUserDatafromFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: Error) -> Void) {
         if let fbUser = self.fireBaseUser {
             Firestore.firestore().collection("users").document(fbUser.uid).delete() { error in
                 if let error = error {
-                    onError((error as? NSError)!)
+                    onError(error)
                 } else {
                     onSuccess(self)
                 }
