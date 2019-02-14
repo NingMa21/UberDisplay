@@ -35,6 +35,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             self.Name.text = user.displayName
             self.DrivingArea.text = user.drivingArea
             self.PhoneNumber.text = user.phoneNumber
+            self.userImage.image = user.profileImage
             // TODO load the image if it is there
         }, onError: {(error) in
             // no big deal if it fails, it probably hasn't been created
@@ -53,6 +54,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         appDelegate.user.displayName = self.Name.text
         appDelegate.user.drivingArea = self.DrivingArea.text
         appDelegate.user.phoneNumber = self.PhoneNumber.text
+        appDelegate.user.profileImage = self.userImage.image
         // don't save email, it is part of sign in info
         
         appDelegate.user.saveUserDatatoFirebase( {(user) in
@@ -63,20 +65,13 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         })
     }
     
-    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        let tappedImage = tapGestureRecognizer.view as! UIImageView
-    }
-    
-    //-------------------------
-    
- 
-    @IBAction func addPhoto(_ sender: Any) {
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {        
         let pPhoto = UIImagePickerController()
         pPhoto.delegate = self
         pPhoto.allowsEditing = true
         // round the corners
         
-
+        
         // buttom pop up asking image from camera or photo library
         let actionSheet = UIAlertController(title: "Photo Source", message: "Choose a source", preferredStyle: .actionSheet)
         
@@ -92,10 +87,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(pPhoto, animated: true)
- 
-    }
- 
         
+    }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         if let chosenImage = info[UIImagePickerControllerEditedImage] as? UIImage
@@ -111,9 +104,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
     }
-    
-    
-        
         
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             // Get the new view controller using segue.destinationViewController.

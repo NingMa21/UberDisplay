@@ -16,6 +16,7 @@ class UberDisplayUser {
     var drivingArea: String?
     var displayName: String?
     var phoneNumber: String?
+    var profileImage: UIImage?
     
     var fireBaseUser: User?
 
@@ -67,7 +68,7 @@ class UberDisplayUser {
      - Parameter onsuccess: Void - callback function when successful
      - Parameter onError: Void - callback when there is an error
     */
-    func createUserinFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: NSError) -> Void) {
+    func createUserinFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: Error) -> Void) {
     
         // TODO this should be a better check
         if self.emailAddress != nil && self.password != nil {
@@ -75,7 +76,7 @@ class UberDisplayUser {
                 
                 // TODO this should be a better message
                 if error != nil{
-                    onError((error as? NSError)!)
+                    onError(error!)
                 } else {
                     self.fireBaseUser = user
                     
@@ -94,14 +95,14 @@ class UberDisplayUser {
      - Parameter onsuccess: Void - callback function when successful
      - Parameter onError: Void - callback when there is an error
      */
-    func signUserIntoFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: NSError) -> Void) {
+    func signUserIntoFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: Error) -> Void) {
         
         // TODO this should be a better check
         if self.emailAddress != nil && self.password != nil {
             Auth.auth().signIn(withEmail: self.emailAddress!, password: self.password!, completion: {(user: User?, error ) in
                 // TODO this should be a better message
                 if error != nil{
-                    onError((error as? NSError)!)
+                    onError(error!)
                 } else {
                     self.fireBaseUser = user
                     onSuccess(self)
@@ -119,12 +120,12 @@ class UberDisplayUser {
      - Parameter onsuccess: Void - callback function when successful
      - Parameter onError: Void - callback when there is an error
      */
-    func deleteUserinFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: NSError) -> Void) {
+    func deleteUserinFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: Error) -> Void) {
         
         Auth.auth().currentUser?.delete(completion: {error in
             // TODO this should be a better message
             if let error = error {
-                onError((error as? NSError)!)
+                onError(error)
             } else {
                 self.fireBaseUser = nil
                 onSuccess(self)
@@ -138,20 +139,45 @@ class UberDisplayUser {
      - Parameter onsuccess: Void - callback function when successful
      - Parameter onError: Void - callback when there is an error
      */
-    func saveUserDatatoFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: NSError) -> Void) {
+    func saveUserDatatoFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: Error) -> Void) {
         if let fbUser = self.fireBaseUser {
+            // dispatch group is for waiting on two async operations
+            let saveDispatchGroup = DispatchGroup()
+            var success = true
             let collection = Firestore.firestore().collection("users")
             
+            // an enter waits until the leave for the group
+            saveDispatchGroup.enter()
             collection.document(fbUser.uid).setData(["name": self.displayName!, "drivingarea": self.drivingArea!, "phonenumber": self.phoneNumber!], completion: { error in
                 if let error = error {
-                    onError((error as? NSError)!)
-                } else {
+                    success = false
+                    
+                    onError(error)
+                }
+                // leave dispatch
+                saveDispatchGroup.leave()
+            })
+            
+            // increment semaphore
+            saveDispatchGroup.enter()
+            let storage = Storage.storage()
+            if self.profileImage != nil {
+                var data = Data()
+                data = UIImageJPEGRepresentation(self.profileImage!, 0.8)!
+                let filePath = "\(self.fireBaseUser!.uid)/profile-pic.jpg"
+                let storageRef = storage.reference().child(filePath)
+                _ = storageRef.putData(data, metadata: nil) { metadata, error in
+                    // I don't really care if this fails
+                    saveDispatchGroup.leave()
+                }
+            }
+            
+            saveDispatchGroup.notify(queue: .main) {
+                if success {
                     onSuccess(self)
                 }
-            })
-        }
-        
-        //TODO need an else with an error
+            }
+        } //TODO need an else with an error
     }
     
     /**
@@ -160,10 +186,14 @@ class UberDisplayUser {
      - Parameter onsuccess: Void - callback function when successful
      - Parameter onError: Void - callback when there is an error
      */
-    func loadUserDatafromFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: NSError) -> Void) {
+    func loadUserDatafromFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: Error) -> Void) {
         if let fbUser = self.fireBaseUser {
+            // dispatch group is for waiting on two async operations
+            let loadDispatchGroup = DispatchGroup()
             let docRef = Firestore.firestore().collection("users").document(fbUser.uid)
             
+            // an enter waits until the leave
+            loadDispatchGroup.enter()
             docRef.getDocument { (document, error) in
                 if let document = document, document.exists {
                     let data = document.data()
@@ -171,12 +201,31 @@ class UberDisplayUser {
                     self.displayName = data["name"] as? String
                     self.drivingArea = data["drivingarea"] as? String
                     self.phoneNumber = data["phonenumber"] as? String
-                    
-                    onSuccess(self)
-                } else {
-                    onError(NSError())
                 }
+                // here is the leave for the dispatch
+                loadDispatchGroup.leave()
             }
+            // TODO link this to onSuccess and error stuff
+            let storage = Storage.storage()
+            let filePath = "\(self.fireBaseUser!.uid)/profile-pic.jpg"
+            let storageRef = storage.reference().child(filePath)
+            // increment the enter dispatch group thing
+            loadDispatchGroup.enter()
+            storageRef.getData(maxSize: 10*1024*1024, completion: { (data, error) in
+                // assign it if it exists
+                if data != nil {
+                    self.profileImage = UIImage(data: data!)
+                }
+                
+                // decrement it
+                loadDispatchGroup.leave()
+            })
+            
+            // wait for both operations to complette and call finished
+            loadDispatchGroup.notify(queue: .main) {
+                onSuccess(self)
+            }
+            
         }
         //TODO need an else with an error
     }
@@ -196,6 +245,8 @@ class UberDisplayUser {
                     onSuccess(self)
                 }
             }
+            
+            // TODO delete profile image
         }
         //TODO need an else with an error
     }
