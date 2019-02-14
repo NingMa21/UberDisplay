@@ -11,6 +11,7 @@ target 'display' do
   pod 'FirebaseUI/Auth'
   pod 'FirebaseUI/Google'	
   pod 'Firebase/Storage'
+  pod 'NVActivityIndicatorView'
 
 pod 'Firestore', :podspec => 'https://storage.googleapis.com/firebase-preview-drop/ios/firestore/0.7.0/Firestore.podspec.json'
 

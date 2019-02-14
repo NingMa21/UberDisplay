@@ -8,8 +8,9 @@
 
 import UIKit
 import Firestore
+import NVActivityIndicatorView
 
-class ProfileViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class ProfileViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate, NVActivityIndicatorViewable {
     
     @IBOutlet weak var Name: UITextField!
     @IBOutlet weak var DrivingArea: UITextField!
@@ -20,6 +21,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.startAnimating()
         // add the tap gesture to the image
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ProfileViewController.imageTapped(tapGestureRecognizer:)))
         userImage.isUserInteractionEnabled = true
@@ -30,18 +32,19 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.Email.text = appDelegate.user.emailAddress
         self.Email.isEnabled = false
         
+        
         // try to retrieve user from firebase if it exists
         appDelegate.user.loadUserDatafromFirebase( {(user) in
             self.Name.text = user.displayName
             self.DrivingArea.text = user.drivingArea
             self.PhoneNumber.text = user.phoneNumber
             self.userImage.image = user.profileImage
-            // TODO load the image if it is there
+            
+            self.stopAnimating()
         }, onError: {(error) in
             // no big deal if it fails, it probably hasn't been created
+            self.stopAnimating()
         })
-        
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -50,6 +53,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     }
 
     @IBAction func SaveProfile(_ sender: UIButton) {
+        self.startAnimating()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.user.displayName = self.Name.text
         appDelegate.user.drivingArea = self.DrivingArea.text
@@ -58,9 +62,11 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         // don't save email, it is part of sign in info
         
         appDelegate.user.saveUserDatatoFirebase( {(user) in
+            self.stopAnimating()
             // go back to home screen
             self.performSegue(withIdentifier: "unwindToHome", sender: self)
         }, onError: {(error) in
+            self.stopAnimating()
             // TODO handle this better
         })
     }

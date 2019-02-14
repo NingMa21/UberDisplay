@@ -245,7 +245,6 @@ class UberDisplayUser {
                     onSuccess(self)
                 }
             }
-            
             // TODO delete profile image
         }
         //TODO need an else with an error
