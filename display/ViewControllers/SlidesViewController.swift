@@ -17,19 +17,10 @@ class SlidesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // TODO load slides from the app delegate user here
+        
         slidesTableView.dataSource = self
         slidesTableView.delegate = self
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        
-    }
-    
-    @objc func addContent() {  // this function to be changed to using ImageName as the content item names
-        if slidesTableView.isEditing {
-            return
-        }
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -58,21 +49,13 @@ class SlidesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //maybe this is not useful? or at least it should be sending the content item names as the imageName.
-//        if let contentView = segue.destination as? ContentViewController {
-//            selectedRow = slidesTableView.indexPathForSelectedRow!.row
-//            contentView.masterView = self //change this, it's not self
-//            contentView.setText(t: content[selectedRow])
-//        }
-//        else if let profileView = segue.destination as? ProfileViewController {
-//
-//        }
+        // TODO pass slide object if selected to this...need to check who the sender was
+        // TODO if it is a new one, create new and use the right position number as well
     }
     
     // This empty action is needed so that we can come back to the
     // home screen once we finish doing a request or anything else.
     @IBAction func unwindToHome(_ segue: UIStoryboardSegue) {
-        // TODO put the saving to the plist here if we come from the registration of sign in
     }
     
     override func didReceiveMemoryWarning() {

@@ -10,26 +10,36 @@ import UIKit
 import Firestore
 import FirebaseStorage
 
-class ContentViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class EditSlideViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
    
     @IBOutlet weak var imageDescription: UITextView!
     var text:String = ""
     weak var masterView: SlidesViewController!
     @IBOutlet weak var imageName: UITextField!
-    
-    
     @IBOutlet weak var displayImage: UIImageView!
-//    var displayImage: UIImageView {
-//        let displayImageView = UIImageView()
-//        displayImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleselectDisplayImage)))
-//        return displayImageView
-//    }
+
+    // MARK: - ViewController methods
+    override func viewDidLoad() {
+        imageName.delegate = self
+        imageDescription.text = "the first image description"
+        self.navigationItem.largeTitleDisplayMode = .never
+    }
+    
+    //this should for text fields
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        imageDescription.becomeFirstResponder()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    // MARK: - Actions
     @IBAction func addImage(_ sender: Any) {
         let aImage = UIImagePickerController()
         aImage.delegate = self
         aImage.allowsEditing = true
-        // round the corners
-        
         
         // buttom pop up asking image from camera or photo library
         let actionSheet = UIAlertController(title: "Photo Source", message: "Choose a source", preferredStyle: .actionSheet)
@@ -49,8 +59,18 @@ class ContentViewController: UIViewController, UITextFieldDelegate, UIImagePicke
         
     }
     
+    @IBAction func saveContent(_ sender: Any) {
+        let contents = Firestore.firestore().collection("uberdisplay")
+        contents.addDocument(data: ["image name": imageName.text as Any, "image description": imageDescription.text as Any]) { contentError in
+            if let contentError = contentError {
+                print("Error adding content: \(contentError)")
+            } else {
+                print("Content added")
+            }
+        }
+    }
     
-    
+    // MARK: - ImagePicker methods
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         if let selectedImage = info[UIImagePickerControllerEditedImage] as? UIImage
         {
@@ -65,11 +85,7 @@ class ContentViewController: UIViewController, UITextFieldDelegate, UIImagePicke
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
     }
-    override func viewDidLoad() {
-        imageName.delegate = self
-        imageDescription.text = "the first image description"
-        self.navigationItem.largeTitleDisplayMode = .never
-    }
+    
     //begin dismiss keyboard when touching
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -81,51 +97,4 @@ class ContentViewController: UIViewController, UITextFieldDelegate, UIImagePicke
         self.view.endEditing(true)
 
     }
-    
-    @IBAction func saveContent(_ sender: Any) {
-        
-        let contents = Firestore.firestore().collection("uberdisplay")
-        contents.addDocument(data: ["image name": imageName.text as Any, "image description": imageDescription.text as Any]) { contentError in
-            if let contentError = contentError {
-                print("Error adding content: \(contentError)")
-            } else {
-                print("Content added")
-            }
-        }
-       //trying to add image to FireStorage, it's not letting me for some reason.
-        //let storage = Storage.storage()
-}
-    //this should for text fields
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        imageDescription.becomeFirstResponder()
-    }
-    
-    func setText(t: String) {
-        text = t
-        if isViewLoaded {
-        imageDescription.text = t
-        }
-        
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

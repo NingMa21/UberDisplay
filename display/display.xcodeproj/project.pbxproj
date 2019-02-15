@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		511A0AFF2141F83B00F81D3C /* RecomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511A0AFE2141F83B00F81D3C /* RecomViewController.swift */; };
-		511A0B0121481BA400F81D3C /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511A0B0021481BA400F81D3C /* ContentViewController.swift */; };
+		511A0B0121481BA400F81D3C /* EditSlideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511A0B0021481BA400F81D3C /* EditSlideViewController.swift */; };
 		5120B6B320B3109C006A3396 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5120B6B220B3109C006A3396 /* AppDelegate.swift */; };
 		5120B6B520B3109C006A3396 /* SlidesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5120B6B420B3109C006A3396 /* SlidesViewController.swift */; };
 		5120B6B820B3109C006A3396 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5120B6B620B3109C006A3396 /* Main.storyboard */; };
@@ -53,7 +53,7 @@
 		07CDF612C43B0D70A1CAFA21 /* Pods-display.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-display.release.xcconfig"; path = "Pods/Target Support Files/Pods-display/Pods-display.release.xcconfig"; sourceTree = "<group>"; };
 		1BE1BB553C02D2B1CD5D1A6C /* Pods-displayUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-displayUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-displayUITests/Pods-displayUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		511A0AFE2141F83B00F81D3C /* RecomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecomViewController.swift; sourceTree = "<group>"; };
-		511A0B0021481BA400F81D3C /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
+		511A0B0021481BA400F81D3C /* EditSlideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSlideViewController.swift; sourceTree = "<group>"; };
 		5120B6AF20B3109C006A3396 /* display.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = display.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5120B6B220B3109C006A3396 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5120B6B420B3109C006A3396 /* SlidesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidesViewController.swift; sourceTree = "<group>"; };
@@ -184,7 +184,7 @@
 				5120B6B620B3109C006A3396 /* Main.storyboard */,
 				511A0AFE2141F83B00F81D3C /* RecomViewController.swift */,
 				5120B6B420B3109C006A3396 /* SlidesViewController.swift */,
-				511A0B0021481BA400F81D3C /* ContentViewController.swift */,
+				511A0B0021481BA400F81D3C /* EditSlideViewController.swift */,
 				513508CB211B2D25005C45A7 /* ProfileViewController.swift */,
 				51212F12214AEB110071CE42 /* LoginViewController.swift */,
 				93F780832216F25700EC39D4 /* SlidesTableViewCellController.swift */,
@@ -482,7 +482,7 @@
 			files = (
 				93A3395722130E9A00776C94 /* StringExtensions.swift in Sources */,
 				51212F13214AEB110071CE42 /* LoginViewController.swift in Sources */,
-				511A0B0121481BA400F81D3C /* ContentViewController.swift in Sources */,
+				511A0B0121481BA400F81D3C /* EditSlideViewController.swift in Sources */,
 				93A3395922130ECF00776C94 /* Plist.swift in Sources */,
 				513508CC211B2D25005C45A7 /* ProfileViewController.swift in Sources */,
 				93F780842216F25800EC39D4 /* SlidesTableViewCellController.swift in Sources */,
