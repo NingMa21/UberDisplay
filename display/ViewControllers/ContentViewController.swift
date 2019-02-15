@@ -14,7 +14,7 @@ class ContentViewController: UIViewController, UITextFieldDelegate, UIImagePicke
    
     @IBOutlet weak var imageDescription: UITextView!
     var text:String = ""
-    weak var masterView: HomeViewController!
+    weak var masterView: SlidesViewController!
     @IBOutlet weak var imageName: UITextField!
     
     
@@ -110,14 +110,11 @@ class ContentViewController: UIViewController, UITextFieldDelegate, UIImagePicke
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        masterView.newRowText = imageDescription.text
-        imageDescription.resignFirstResponder()
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 

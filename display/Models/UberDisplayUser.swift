@@ -17,6 +17,7 @@ class UberDisplayUser {
     var displayName: String?
     var phoneNumber: String?
     var profileImage: UIImage?
+    var slides = [Slide]()
     
     var fireBaseUser: User?
 
@@ -159,9 +160,9 @@ class UberDisplayUser {
             })
             
             // increment semaphore
-            saveDispatchGroup.enter()
             let storage = Storage.storage()
             if self.profileImage != nil {
+                saveDispatchGroup.enter()
                 var data = Data()
                 data = UIImageJPEGRepresentation(self.profileImage!, 0.8)!
                 let filePath = "\(self.fireBaseUser!.uid)/profile-pic.jpg"
@@ -177,7 +178,9 @@ class UberDisplayUser {
                     onSuccess(self)
                 }
             }
-        } //TODO need an else with an error
+        } else {
+            onError(NSError())
+        }//TODO need an else with an error
     }
     
     /**
@@ -205,7 +208,6 @@ class UberDisplayUser {
                 // here is the leave for the dispatch
                 loadDispatchGroup.leave()
             }
-            // TODO link this to onSuccess and error stuff
             let storage = Storage.storage()
             let filePath = "\(self.fireBaseUser!.uid)/profile-pic.jpg"
             let storageRef = storage.reference().child(filePath)
@@ -231,14 +233,29 @@ class UberDisplayUser {
     }
     
     /**
-     Deletes data from the firebase for this uid
+     Deletes data from the firebase for this uid...mostly used in testing
      
      - Parameter onsuccess: Void - callback function when successful
      - Parameter onError: Void - callback when there is an error
      */
     func deleteUserDatafromFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: Error) -> Void) {
         if let fbUser = self.fireBaseUser {
-            Firestore.firestore().collection("users").document(fbUser.uid).delete() { error in
+            let docRef = Firestore.firestore().collection("users").document(fbUser.uid)
+            
+            docRef.collection("slides").getDocuments(completion: { querySnapshot, err in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        let slideRef = docRef.collection("slides").document(document.documentID)
+                        slideRef.delete()
+                    }
+                }
+            })
+            
+            // TODO delete the slide images
+
+            docRef.delete() { error in
                 if let error = error {
                     onError(error)
                 } else {
@@ -246,6 +263,108 @@ class UberDisplayUser {
                 }
             }
             // TODO delete profile image
+        }
+        //TODO need an else with an error
+    }
+    
+    func saveSlidesFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: Error) -> Void) {
+        // TODO this might need to be a transaction if it is too slow
+        if let fbUser = self.fireBaseUser {
+            // dispatch group is for waiting on two async operations
+            let saveDispatchGroup = DispatchGroup()
+            var success = true
+            let collection = Firestore.firestore().collection("users")
+            
+            // an enter waits until the leave for the group
+            for slide in self.slides {
+                saveDispatchGroup.enter()
+                let slideRef = collection.document(fbUser.uid).collection("slides").document()
+                
+                slideRef.setData(["position": slide.position!, "title": slide.title!, "description": slide.description!], completion: { error in
+                    if let error = error {
+                        success = false
+                        
+                        onError(error)
+                    }
+                    // leave dispatch
+                    saveDispatchGroup.leave()
+                })
+            }
+            
+            let storage = Storage.storage()
+            for slide in self.slides {
+                if slide.slideImage != nil {
+                    // increment semaphore
+                    saveDispatchGroup.enter()
+                    var data = Data()
+                    data = UIImageJPEGRepresentation(slide.slideImage!, 0.8)!
+                    let filePath = "\(self.fireBaseUser!.uid)/slides/slide-\(slide.position!).jpg"
+                    let storageRef = storage.reference().child(filePath)
+                    _ = storageRef.putData(data, metadata: nil) { metadata, error in
+                        // I don't really care if this fails
+                        saveDispatchGroup.leave()
+                    }
+
+                }
+            }
+            
+            saveDispatchGroup.notify(queue: .main) {
+                if success {
+                    onSuccess(self)
+                }
+            }
+        } //TODO need an else with an error
+    }
+    
+    /**
+     Retrieves slide data for this firebase uid and loads it in object
+     
+     - Parameter onsuccess: Void - callback function when successful
+     - Parameter onError: Void - callback when there is an error
+     */
+    func loadSlidesfromFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: Error) -> Void) {
+        if let fbUser = self.fireBaseUser {
+            // dispatch group is for waiting on two async operations
+            let loadDispatchGroup = DispatchGroup()
+            let docRef = Firestore.firestore().collection("users").document(fbUser.uid)
+            
+            // an enter waits until the leave
+            loadDispatchGroup.enter()
+            docRef.collection("slides").getDocuments(completion: { querySnapshot, err in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        let slide = Slide()
+                        slide.description = document.data()["description"] as? String
+                        slide.position = document.data()["position"] as? Int
+                        slide.title = document.data()["title"] as? String
+                        
+                        let storage = Storage.storage()
+                        let filePath = "\(self.fireBaseUser!.uid)/slides/slide-\(slide.position!).jpg"
+                        let storageRef = storage.reference().child(filePath)
+                        // increment the enter dispatch group thing
+                        loadDispatchGroup.enter()
+                        storageRef.getData(maxSize: 10*1024*1024, completion: { (data, error) in
+                            // assign it if it exists
+                            if data != nil {
+                                self.profileImage = UIImage(data: data!)
+                            }
+                            
+                            // decrement it
+                            loadDispatchGroup.leave()
+                        })
+
+                        self.slides.append(slide)
+                    }
+                }
+                loadDispatchGroup.leave()
+            })
+            
+            // wait for both operations to complette and call finished
+            loadDispatchGroup.notify(queue: .main) {
+                onSuccess(self)
+            }
         }
         //TODO need an else with an error
     }

@@ -121,6 +121,31 @@ class UberDisplayUserTests: XCTestCase {
         waitForExpectations(timeout: TimeInterval.init(120), handler: nil)
         XCTAssertTrue(success)
         
+        // SAVE SLIDES
+        let slideOne = Slide()
+        slideOne.position = 1
+        slideOne.title = "Test Slide One"
+        slideOne.description = "Test Slide One"
+        self.user.slides.append(slideOne)
+        let slideTwo = Slide()
+        slideTwo.position = 2
+        slideTwo.title = "Test Slide Two"
+        slideTwo.description = "Test Slide Two"
+        self.user.slides.append(slideTwo)
+        
+        let expectationSaveSlide = self.expectation(description: "Saving slides")
+        success = false
+
+        self.user.saveSlidesFirebase( {(user) in
+            success = true
+            expectationSaveSlide.fulfill()
+        }, onError: {(error) in
+            expectationSaveSlide.fulfill()
+        })
+        
+        waitForExpectations(timeout: TimeInterval.init(120), handler: nil)
+        XCTAssertTrue(success)
+        
         // READ
         self.user.drivingArea = "MARS!!!"
         
@@ -137,6 +162,23 @@ class UberDisplayUserTests: XCTestCase {
         waitForExpectations(timeout: TimeInterval.init(120), handler: nil)
         XCTAssertTrue(success)
         XCTAssertEqual(self.user.drivingArea, "State College")
+        
+        // LOAD SLIDES
+        self.user.slides = [Slide]()
+        let expectationLoadSlides = self.expectation(description: "loading slides from firestore")
+        success = false
+        
+        self.user.loadSlidesfromFirebase( {(user) in
+            success = true
+            expectationLoadSlides.fulfill()
+        }, onError: {(error) in
+            expectationLoadSlides.fulfill()
+        })
+        
+        waitForExpectations(timeout: TimeInterval.init(120), handler: nil)
+        XCTAssertTrue(success)
+        XCTAssertTrue(self.user.slides.count > 0)
+
         
         // DELETE
         let expectationThree = self.expectation(description: "deleting user data in firestore")
