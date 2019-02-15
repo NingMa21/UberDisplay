@@ -196,15 +196,10 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gaH-86-ewh"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Configure Slides" id="dDZ-Tf-Hct">
-                        <barButtonItem key="rightBarButtonItem" title="+" id="Nzc-KS-WGZ">
-                            <connections>
-                                <segue destination="jd5-up-CgY" kind="show" id="GW3-09-Vg6"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Configure Slides" id="dDZ-Tf-Hct"/>
                     <connections>
                         <outlet property="slidesTableView" destination="5vO-hD-tSV" id="rGj-I6-2hm"/>
+                        <segue destination="jd5-up-CgY" kind="show" identifier="detailSegue" id="Gp0-mH-ceA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="61B-ne-MPK" userLabel="First Responder" sceneMemberID="firstResponder"/>

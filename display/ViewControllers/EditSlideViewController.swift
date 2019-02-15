@@ -12,8 +12,8 @@ import FirebaseStorage
 
 class EditSlideViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
    
+    var slide: Slide?
     @IBOutlet weak var imageDescription: UITextView!
-    var text:String = ""
     weak var masterView: SlidesViewController!
     @IBOutlet weak var imageName: UITextField!
     @IBOutlet weak var displayImage: UIImageView!
