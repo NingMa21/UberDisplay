@@ -223,7 +223,7 @@ class UberDisplayUser {
                 loadDispatchGroup.leave()
             })
             
-            // wait for both operations to complette and call finished
+            // wait for both operations to complete and call finished
             loadDispatchGroup.notify(queue: .main) {
                 onSuccess(self)
             }

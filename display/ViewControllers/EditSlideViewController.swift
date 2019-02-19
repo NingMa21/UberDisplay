@@ -9,26 +9,20 @@
 import UIKit
 import Firestore
 import FirebaseStorage
+import NVActivityIndicatorView
 
-class EditSlideViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class EditSlideViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, NVActivityIndicatorViewable {
    
     var slide: Slide?
     @IBOutlet weak var imageDescription: UITextView!
-    weak var masterView: SlidesViewController!
     @IBOutlet weak var imageName: UITextField!
     @IBOutlet weak var displayImage: UIImageView!
 
     // MARK: - ViewController methods
     override func viewDidLoad() {
-        imageName.delegate = self
-        imageDescription.text = "the first image description"
-        self.navigationItem.largeTitleDisplayMode = .never
-    }
-    
-    //this should for text fields
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        imageDescription.becomeFirstResponder()
+        self.imageName.text = self.slide?.title
+        self.imageDescription.text = self.slide?.description
+        self.displayImage.image = self.slide?.slideImage
     }
     
     override func didReceiveMemoryWarning() {
@@ -60,14 +54,26 @@ class EditSlideViewController: UIViewController, UITextFieldDelegate, UIImagePic
     }
     
     @IBAction func saveContent(_ sender: Any) {
-        let contents = Firestore.firestore().collection("uberdisplay")
-        contents.addDocument(data: ["image name": imageName.text as Any, "image description": imageDescription.text as Any]) { contentError in
-            if let contentError = contentError {
-                print("Error adding content: \(contentError)")
-            } else {
-                print("Content added")
-            }
+        self.slide?.title = self.imageName.text
+        self.slide?.description = self.imageDescription.text
+        self.slide?.slideImage = self.displayImage.image
+        
+        self.startAnimating()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        // check if the slide is already in the deck of slides, via the order number
+        if let idx = appDelegate.user.slides.firstIndex(where: { $0.position == self.slide?.position }) {
+            appDelegate.user.slides[idx] = self.slide!
+        } else { // append it if not
+            appDelegate.user.slides.append(self.slide!)
         }
+        
+        appDelegate.user.saveSlidesFirebase( {(user) in
+            self.stopAnimating()
+            self.performSegue(withIdentifier: "unwindToHome", sender: self)
+        }, onError: {(error) in
+            self.stopAnimating()
+            // TODO handle this better with a message or something
+        })
     }
     
     // MARK: - ImagePicker methods
@@ -91,10 +97,5 @@ class EditSlideViewController: UIViewController, UITextFieldDelegate, UIImagePic
         textField.resignFirstResponder()
         
         return true;
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-
     }
 }
