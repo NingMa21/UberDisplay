@@ -86,10 +86,9 @@ class SlidesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         if let editSlideViewController = segue.destination as? EditSlideViewController {
-            if let selectedSlideCell = sender as? SlidesTableViewCellController {
-                let indexPath = self.slidesTableView.indexPath(for: selectedSlideCell)!
-                let selectedSlide = appDelegate.user.slides[indexPath.row]
-                
+            if let tableView = sender as? UITableView {
+                let indexPath = tableView.indexPathForSelectedRow
+                let selectedSlide = appDelegate.user.slides[indexPath!.row]
                 editSlideViewController.slide = selectedSlide
             } else {
                 // TODO if it is a new one, create new and use the right position number as well
@@ -100,8 +99,18 @@ class SlidesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
     }
     
-    // This empty action is needed so that we can come back to the
-    // home screen once we finish doing a request or anything else.
+    // This action is needed so that we can come back to the
+    // home screen once we finish doing a request or anything else and
+    // reload the slides
     @IBAction func unwindToHome(_ segue: UIStoryboardSegue) {
+        self.startAnimating()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.user.loadSlidesfromFirebase( {(user) in
+            self.stopAnimating()
+            self.slidesTableView.reloadData()
+        }, onError: {(error) in
+            self.stopAnimating()
+            // TODO handle this better with a message or something
+        })
     }
 }
