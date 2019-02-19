@@ -348,7 +348,7 @@ class UberDisplayUser {
                         storageRef.getData(maxSize: 10*1024*1024, completion: { (data, error) in
                             // assign it if it exists
                             if data != nil {
-                                self.profileImage = UIImage(data: data!)
+                                slide.slideImage = UIImage(data: data!)
                             }
                             
                             // decrement it

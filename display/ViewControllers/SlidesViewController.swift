@@ -7,21 +7,30 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
 
-class SlidesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SlidesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NVActivityIndicatorViewable {
     
     @IBOutlet weak var slidesTableView: UITableView!
-    
-    var slides:[Slide] = []
     
     // MARK: - UIViewController methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // TODO load slides from the app delegate user here
+        // load slides from the app delegate user here
+        self.startAnimating()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.user.loadSlidesfromFirebase( {(user) in
+            self.stopAnimating()
+            self.slidesTableView.reloadData()
+        }, onError: {(error) in
+            self.stopAnimating()
+            // TODO handle this better with a message or something
+        })
         
         slidesTableView.dataSource = self
         slidesTableView.delegate = self
+        slidesTableView.rowHeight = 90
         
         let addButton = UIBarButtonItem(barButtonSystemItem: .add,
                                         target: self,
@@ -36,14 +45,22 @@ class SlidesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     // MARK: - TableView methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return slides.count
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+        return appDelegate.user.slides.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
-//        cell.textLabel?.text = slides[indexPath.row]
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SlideCell", for: indexPath) as! SlidesTableViewCellController
         
-        return(cell)
+        let slide = appDelegate.user.slides[indexPath.row]
+        cell.slideTitle.text = slide.title
+        cell.slideDescription.text = slide.description
+        cell.slideImage.image = slide.slideImage
+        
+        return cell
     }
     
     // TODO not sure what the point of this is atm
@@ -54,26 +71,30 @@ class SlidesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     // TODO unsure what the point is here as well
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        slides.remove(at: indexPath.row)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+        appDelegate.user.slides.remove(at: indexPath.row)
         slidesTableView.deleteRows(at: [indexPath], with: .fade)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "detail", sender: self.slidesTableView)
+        self.performSegue(withIdentifier: "detailSegue", sender: self.slidesTableView)
     }
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
         if let editSlideViewController = segue.destination as? EditSlideViewController {
             if let selectedSlideCell = sender as? SlidesTableViewCellController {
                 let indexPath = self.slidesTableView.indexPath(for: selectedSlideCell)!
-                let selectedSlide = self.slides[indexPath.row]
+                let selectedSlide = appDelegate.user.slides[indexPath.row]
                 
                 editSlideViewController.slide = selectedSlide
             } else {
                 // TODO if it is a new one, create new and use the right position number as well
                 let newSlide = Slide()
-                newSlide.position = self.slides.count
+                newSlide.position = appDelegate.user.slides.count
                 editSlideViewController.slide = newSlide
             }
         }
