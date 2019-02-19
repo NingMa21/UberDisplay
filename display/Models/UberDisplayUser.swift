@@ -278,8 +278,14 @@ class UberDisplayUser {
             // an enter waits until the leave for the group
             for slide in self.slides {
                 saveDispatchGroup.enter()
-                let slideRef = collection.document(fbUser.uid).collection("slides").document()
+                var slideRef: DocumentReference
                 
+                // existing slide
+                if slide.firebaseID != nil {
+                    slideRef = collection.document(fbUser.uid).collection("slides").document(slide.firebaseID!)
+                } else { // new slide
+                    slideRef = collection.document(fbUser.uid).collection("slides").document()
+                }
                 slideRef.setData(["position": slide.position!, "title": slide.title!, "description": slide.description!], completion: { error in
                     if let error = error {
                         success = false
@@ -289,6 +295,7 @@ class UberDisplayUser {
                     // leave dispatch
                     saveDispatchGroup.leave()
                 })
+                
             }
             
             let storage = Storage.storage()
@@ -324,6 +331,8 @@ class UberDisplayUser {
      */
     func loadSlidesfromFirebase(_ onSuccess: @escaping (_ user: UberDisplayUser) -> Void, onError: @escaping (_ error: Error) -> Void) {
         if let fbUser = self.fireBaseUser {
+            self.slides.removeAll()
+            
             // dispatch group is for waiting on two async operations
             let loadDispatchGroup = DispatchGroup()
             let docRef = Firestore.firestore().collection("users").document(fbUser.uid)
@@ -339,6 +348,7 @@ class UberDisplayUser {
                         slide.description = document.data()["description"] as? String
                         slide.position = document.data()["position"] as? Int
                         slide.title = document.data()["title"] as? String
+                        slide.firebaseID = document.documentID
                         
                         let storage = Storage.storage()
                         let filePath = "\(self.fireBaseUser!.uid)/slides/slide-\(slide.position!).jpg"

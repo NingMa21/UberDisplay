@@ -11,6 +11,7 @@ import UIKit
 import Firestore
 
 class Slide {
+    var firebaseID: String?
     var position: Int?
     var title: String?
     var description: String?
