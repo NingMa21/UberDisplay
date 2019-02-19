@@ -8,6 +8,7 @@
 
 import UIKit
 import NVActivityIndicatorView
+import ImageSlideshow
 
 class SlidesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NVActivityIndicatorViewable {
     

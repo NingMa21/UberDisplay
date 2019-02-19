@@ -339,7 +339,7 @@ class UberDisplayUser {
             
             // an enter waits until the leave
             loadDispatchGroup.enter()
-            docRef.collection("slides").getDocuments(completion: { querySnapshot, err in
+            docRef.collection("slides").order(by: "position").getDocuments(completion: { querySnapshot, err in
                 if let err = err {
                     print("Error getting documents: \(err)")
                 } else {

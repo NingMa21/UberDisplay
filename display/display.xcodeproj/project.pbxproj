@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		511A0AFF2141F83B00F81D3C /* RecomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511A0AFE2141F83B00F81D3C /* RecomViewController.swift */; };
 		511A0B0121481BA400F81D3C /* EditSlideViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511A0B0021481BA400F81D3C /* EditSlideViewController.swift */; };
 		5120B6B320B3109C006A3396 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5120B6B220B3109C006A3396 /* AppDelegate.swift */; };
 		5120B6B520B3109C006A3396 /* SlidesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5120B6B420B3109C006A3396 /* SlidesViewController.swift */; };
@@ -18,6 +17,7 @@
 		5140211F21094D9E00CEE434 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5140211E21094D9E00CEE434 /* Images.xcassets */; };
 		5198CA4021348D2B00B69061 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5198CA3F21348D2B00B69061 /* GoogleService-Info.plist */; };
 		5EFBB20BEB89DEB45F5CD1FB /* Pods_displayUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2C17FD7B6F7F0422882956F /* Pods_displayUITests.framework */; };
+		93514824221C87BF00CFD80E /* SlideShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93514823221C87BF00CFD80E /* SlideShowViewController.swift */; };
 		93A339482211EF0400776C94 /* UberDisplayUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A339472211EF0400776C94 /* UberDisplayUser.swift */; };
 		93A3394B2211EF2300776C94 /* UberDisplayUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A3394A2211EF2300776C94 /* UberDisplayUserTests.swift */; };
 		93A3394E2211FA9200776C94 /* displayUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A3394D2211FA9100776C94 /* displayUITests.swift */; };
@@ -52,7 +52,6 @@
 		06E14BCE02A883711A52FA7B /* Pods_displayTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_displayTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		07CDF612C43B0D70A1CAFA21 /* Pods-display.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-display.release.xcconfig"; path = "Pods/Target Support Files/Pods-display/Pods-display.release.xcconfig"; sourceTree = "<group>"; };
 		1BE1BB553C02D2B1CD5D1A6C /* Pods-displayUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-displayUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-displayUITests/Pods-displayUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		511A0AFE2141F83B00F81D3C /* RecomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecomViewController.swift; sourceTree = "<group>"; };
 		511A0B0021481BA400F81D3C /* EditSlideViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSlideViewController.swift; sourceTree = "<group>"; };
 		5120B6AF20B3109C006A3396 /* display.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = display.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5120B6B220B3109C006A3396 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +68,7 @@
 		5140211E21094D9E00CEE434 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		5198CA3F21348D2B00B69061 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		790A5FB3F55B159B7F6F82B1 /* Pods-displayTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-displayTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-displayTests/Pods-displayTests.release.xcconfig"; sourceTree = "<group>"; };
+		93514823221C87BF00CFD80E /* SlideShowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideShowViewController.swift; sourceTree = "<group>"; };
 		9378F7DC5C6064C6BF874DDC /* Pods-displayTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-displayTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-displayTests/Pods-displayTests.debug.xcconfig"; sourceTree = "<group>"; };
 		93A339472211EF0400776C94 /* UberDisplayUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UberDisplayUser.swift; sourceTree = "<group>"; };
 		93A339492211EF2200776C94 /* displayTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "displayTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -182,12 +182,12 @@
 			children = (
 				5120B6BB20B3109F006A3396 /* LaunchScreen.storyboard */,
 				5120B6B620B3109C006A3396 /* Main.storyboard */,
-				511A0AFE2141F83B00F81D3C /* RecomViewController.swift */,
-				5120B6B420B3109C006A3396 /* SlidesViewController.swift */,
 				511A0B0021481BA400F81D3C /* EditSlideViewController.swift */,
-				513508CB211B2D25005C45A7 /* ProfileViewController.swift */,
 				51212F12214AEB110071CE42 /* LoginViewController.swift */,
+				513508CB211B2D25005C45A7 /* ProfileViewController.swift */,
+				5120B6B420B3109C006A3396 /* SlidesViewController.swift */,
 				93F780832216F25700EC39D4 /* SlidesTableViewCellController.swift */,
+				93514823221C87BF00CFD80E /* SlideShowViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -408,6 +408,7 @@
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/ImageSlideshow/ImageSlideshow.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
@@ -423,6 +424,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageSlideshow.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
@@ -480,13 +482,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93514824221C87BF00CFD80E /* SlideShowViewController.swift in Sources */,
 				93A3395722130E9A00776C94 /* StringExtensions.swift in Sources */,
 				51212F13214AEB110071CE42 /* LoginViewController.swift in Sources */,
 				511A0B0121481BA400F81D3C /* EditSlideViewController.swift in Sources */,
 				93A3395922130ECF00776C94 /* Plist.swift in Sources */,
 				513508CC211B2D25005C45A7 /* ProfileViewController.swift in Sources */,
 				93F780842216F25800EC39D4 /* SlidesTableViewCellController.swift in Sources */,
-				511A0AFF2141F83B00F81D3C /* RecomViewController.swift in Sources */,
 				93F780862216F72900EC39D4 /* Slide.swift in Sources */,
 				5120B6B520B3109C006A3396 /* SlidesViewController.swift in Sources */,
 				5120B6B320B3109C006A3396 /* AppDelegate.swift in Sources */,

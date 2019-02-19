@@ -9,7 +9,6 @@
 import UIKit
 
 class SlidesTableViewCellController: UITableViewCell {
-    
     @IBOutlet weak var slideImage: UIImageView!
     @IBOutlet weak var slideTitle: UILabel!
     @IBOutlet weak var slideDescription: UILabel!
